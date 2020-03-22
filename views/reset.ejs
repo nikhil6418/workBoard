@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WorkBoard</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4DA5F4" />
+    <meta name="csrf-token" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    
+  </head>
+  <body>
+    <% if(messages.errors) {%>
+      <div class="alert alert-danger fade show">
+        <% for(let error of messages.errors){%>
+          <center><%=error.msg%></center>
+          <%}%>
+      </div>
+      
+    <%}%>
+
+    <% if(messages.info) {%>
+      <div class="alert alert-info fade show">
+        <% for(let info of messages.info){%>
+          <center><%=info.msg%></center>
+          <%}%>
+      </div>
+      
+    <%}%>
+
+    <% if(messages.success) {%>
+      <div class="alert alert-success fade show">
+        <% for(let success of messages.success){%>
+          <center><%=success.msg%></center>
+          <%}%>
+      </div>
+      
+    <%}%>
+
+  
+        <div class="row">
+            <div class="col-md-12">
+                <form action="/reset/<%= token %>" method="POST">
+                  <legend>Reset Password</legend>
+                  <div class="form-group">
+                    <label for="password">New Password</label>
+                    <input type="password" name="password" value="" placeholder="New password" autofocus="autofocus" class="form-control"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="confirm">Confirm Password</label>
+                    <input type="password" name="confirm" value="" placeholder="Confirm password" class="form-control"/>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Update Password</button>
+                  </div>
+                </form>
+            </div>
+        </div>
+    
+
+
+  </body>
+</html>
+
+
+
+
+

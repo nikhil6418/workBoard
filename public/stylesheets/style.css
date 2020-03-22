@@ -1,0 +1,48 @@
+body {
+  padding: 0px;
+  margin: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.outer{
+  position: relative;
+  margin-bottom: 20px;
+
+}
+
+.outer img {
+  width: 100%;
+  height: auto;
+}
+
+.outer .button1 {
+  position: absolute;
+  top: 50%;
+  left:35%;
+  background-color: white;
+  color: blue;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 20px;
+}
+
+.outer .button2 {
+  position: absolute;
+  top: 50%;
+  right: 35%;
+  background-color: white;
+  color: blue;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  font-weight: 700;
+}

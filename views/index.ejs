@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WorkBoard</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4DA5F4" />
+    <meta name="csrf-token" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    
+  </head>
+  <body>
+    <%- include('./partials/header2'); -%>
+    <% if(messages.errors) {%>
+      <div class="alert alert-danger fade show">
+        <% for(let error of messages.errors){%>
+          <center><%=error.msg%></center>
+          <%}%>
+      </div>
+      
+    <%}%>
+
+    <% if(messages.info) {%>
+      <div class="alert alert-info fade show">
+        <% for(let info of messages.info){%>
+          <center><%=info.msg%></center>
+          <%}%>
+      </div>
+      
+    <%}%>
+
+    <% if(messages.success) {%>
+      <div class="alert alert-success fade show">
+        <% for(let success of messages.success){%>
+          <center><%=success.msg%></center>
+          <%}%>
+      </div>
+      
+    <%}%>
+
+    <div class="pb"> 
+      <i class="fa fa-user fa-3x"></i><span style="font-size: 40px;">Personal Boards</span>
+      
+      <div class="cards-list">
+        <% for(var i=0; i< board.length ; i++) {%>
+        <div class="card 1" onclick="window.location.assign('/createList/<%=board[i].name%>')">
+          <div class="card_image"> <img src="https://i.redd.it/b3esnz5ra34y.jpg" /> </div>
+          <div class="card_title title-white">
+            <p><%= board[i].name %></p>
+          </div>
+        </div>
+    
+        <% } %>
+
+        <div class="card 1" onclick="openForm()" >
+          <div class="card_image"> <img src="https://i.redd.it/b3esnz5ra34y.jpg" /> </div>
+          <div class="card_title title-white">
+            <p>Create new board!</p>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+
+    <div class="pb"> 
+      <i class="fa fa-users fa-3x"></i><span style="font-size: 40px;">Team Boards</span>
+      <div class="cards-list">
+ 
+        <% for(var i=0; i<tboard.length ; i++) {%>
+          <div class="card 1" >
+            <div class="card_image" onclick="window.location.assign('/createList/<%=tboard[i].name%>')"  > <img src="https://i.redd.it/b3esnz5ra34y.jpg" /> </div>
+            <div class="card_title title-white" onclick="openForm2(<%=i%>)">
+              <span id="board<%=i%>"><%= tboard[i].name %></span>
+              <i class="fa fa-user-plus fa-1x"></i>
+            </div>
+          </div>
+           
+      
+          <% } %>
+
+        <div class="card 1" onclick="openForm1()" >
+          <div class="card_image"> <img src="https://i.redd.it/b3esnz5ra34y.jpg" /> </div>
+          <div class="card_title title-white">
+            <p>Create team board!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+
+    <div class="form-popup" id="myForm">
+      <form action="/createBoard" class="form-container" method="POST">
+        <label for="boardName"><b>Board Name </b></label>
+        <input type="text" placeholder="Enter Name" name="boardName" required>    
+        <button type="submit" class="btn">Create</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+      </form>
+    </div>
+
+    <div class="form-popup" id="myForm1">
+      <form action="/createTBoard" class="form-container" method="POST">
+        <label for="boardName"><b>Team Board Name </b></label>
+        <input type="text" placeholder="Enter Name" name="boardName" required>    
+        <button type="submit" class="btn">Create</button>
+        <button type="button" class="btn cancel" onclick="closeForm1()">Cancel</button>
+      </form>
+    </div>
+
+    <div class="form-popup" id="myForm2">
+      <form action="/addMember" class="form-container" method="POST" id="myForm21">
+        <label for="boardName"><b>Team Member You Want to Add </b></label>
+        <input type="text" placeholder="Enter Registered Email Id of user you want to add" name="memberId" required>    
+        <button type="submit" class="btn">Create</button>
+        <button type="button" class="btn cancel" onclick="closeForm2()">Cancel</button>
+      </form>
+    </div>
+    
+     <script>
+      function openForm() {
+        document.getElementById("myForm").style.display = "block";
+      }
+      
+      function openForm1() {
+        document.getElementById("myForm1").style.display = "block";
+      } 
+
+      function openForm2(buttonCheck) {
+        document.getElementById("myForm21").action = "/addMember/" + document.getElementById("board" + buttonCheck).innerHTML;
+        document.getElementById("myForm2").style.display = "block";
+      } 
+
+      function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+      }
+
+      function closeForm1() {
+        document.getElementById("myForm1").style.display = "none";
+      }
+
+      function closeForm2() {
+        document.getElementById("myForm2").style.display = "none";
+      }
+      </script>
+  </body>
+</html>

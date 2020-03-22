@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WorkBoard</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4DA5F4" />
+    <meta name="csrf-token" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    
+  </head>
+  <body>
+    <div class="navbar navbar-light  navbar-expand-lg bg-light" >
+        <div class="container"><a class="navbar-brand" href="/createList/<%=board[0].name%>">Board: <%=board[0].name%></a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="openForm()">Create List</a></li>
+
+                </ul>
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                    <li class="nav-item nav-link">Hi, <%=name%></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <% if(messages.errors) {%>
+      <div class="alert alert-danger fade show">
+        <% for(let error of messages.errors){%>
+          <center><%=error.msg%></center>
+          <%}%>
+      </div>
+      
+    <%}%>
+
+    <% if(messages.info) {%>
+      <div class="alert alert-info fade show">
+        <% for(let info of messages.info){%>
+          <center><%=info.msg%></center>
+          <%}%>
+      </div>
+      
+    <%}%>
+
+    <% if(messages.success) {%>
+      <div class="alert alert-success fade show">
+        <% for(let success of messages.success){%>
+          <center><%=success.msg%></center>
+          <%}%>
+      </div>
+      
+    <%}%>
+
+
+        <div class="row" style="margin-top: 25px; margin-left: 15%; margin-right: 10px; ">
+        <% for(var i=0; i< board[0].list.length ; i++) {%>
+          <div class="col-sm-3" style="padding: 0px; padding-top: 25px; margin-left: 10px; ">
+            <div style="height: 70px; font-size: 25px; background-color: #E8E8E8; padding-top: 15px; padding-left: 10px;" id="list<%=i%>"><%=board[0].list[i].listName%></div>
+            <% for(var j=0; j < board[0].list[i].card.length; j++) {%>
+            <div style="background-color: white; padding-top: 10px; padding-left:20px; padding-bottom:10px; cursor: pointer;" onclick="window.location.assign('/showList/<%=board[0].name%>/<%=board[0].list[i].listName%>/<%= board[0].list[i].card[j].cardName%>')"><%= board[0].list[i].card[j].cardName%></div>
+            <%}%>  
+            <button class="button" onclick="openForm1(<%=i%>)" >+ card</button>  
+          </div>     
+        <%}%>     
+        </div>
+
+
+
+        <div class="form-popup" id="myForm">    
+            <form action="/createList/<%=board[0].name%>" class="form-container" method="POST">
+              <label for="boardName"><b>List Name </b></label>
+              <input type="text" placeholder="Enter Name" name="listName" required>    
+              <button type="submit" class="btn">Create</button>
+              <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+            </form>
+          </div>
+
+          <div class="form-popup" id="myForm1">
+            <form action="" class="form-container" method="POST" id=myForm12>
+              <label for="cardName"><b>Card Name </b></label>
+              <input type="text" placeholder="Enter Name" name="cardName" required>    
+              <button type="submit" class="btn">Create</button>
+              <button type="button" class="btn cancel" onclick="closeForm1()">Cancel</button>
+            </form>
+          </div>
+
+
+        <script>
+            function openForm(){
+              document.getElementById("myForm").style.display = "block";
+            }
+            
+            function openForm1(buttonCheck) {
+              document.getElementById("myForm12").action = "/createCard/<%=board[0].name%>/" + document.getElementById("list"+ buttonCheck).innerHTML;
+              document.getElementById("myForm1").style.display = "block";
+            } 
+            
+            function closeForm() {
+              document.getElementById("myForm").style.display = "none";
+            }
+
+            function closeForm1() {
+              document.getElementById("myForm1").style.display = "none";
+            }
+            </script>
+  </body>
+</html>
