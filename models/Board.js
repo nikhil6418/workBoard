@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
     list: [{
       listName: String,
       card:[{cardName:String,
-      fileName: [String]
+      fileName: [String],
+      archive: Boolean
       }]
     }],
   }, { timestamps: true });

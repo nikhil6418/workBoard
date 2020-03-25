@@ -19,30 +19,47 @@
         .linker{
             width: 50%;
             background-color: white; 
-            height: 60px; 
+            height: 120px; 
             margin-left: 25%; 
             box-shadow: 5px 10px 8px #888888; 
             border-radius: 25px; 
             padding-top:18px; 
             font-size: 20px;
             margin-bottom: 30px;
+            padding-left: 10px;
+        }
+
+        .linker1{
+            background-color:#90EE90; 
+            height: 120px; 
+            margin-left: 65%; 
+            border-radius: 25px; 
+            padding-top:10px;
+            padding-bottom: 10px;
+            padding-right: 10px; 
+            font-size: 20px;
+            margin-bottom: 30px;
+            padding-left: 10px;
+            cursor: pointer;
         }
     </style>
   </head>
   <body>
     <div class="navbar navbar-light  navbar-expand-lg bg-light" >
-        <div class="container"><a class="navbar-brand" href="/">WorkBoard</a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container">
+          <a class="navbar-brand" href="/">WorkBoard</a>
+          <a class="navbar-brand" href="/">Home</a>
+            
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="/createList/<%=bname%>">Go Back</a></li>
+              
                 </ul>
-                <ul class="nav navbar-nav ml-auto">
-                  <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-                  <li class="nav-item nav-link">Hi, <%=name%></li>
-              </ul>
+
             </div>
         </div>
-    </div>
+        
+
+      </div>
 
 
     <% if(messages.errors) {%>
@@ -72,21 +89,35 @@
       
     <%}%>
 
-    <form class="fileupload" action="/fileUpload/<%=bname%>/<%=lname%>/<%=cname%>" method="post" enctype="multipart/form-data">
-        <center><h1 style="margin-top:30px; margin-bottom: 30px;">Upload files here</h1>
-        <input type="file" name="upfile" value="">
-        <input type="submit" />
-        </center>   
-      </form>
+      <center><h1 style="margin-top:30px; margin-bottom: 30px;">Archived Cards</h1></center>
 
 
-      <center><h1 style="margin-top:30px; margin-bottom: 30px;">Download files</h1></center>
-
-      <% for( var i=0;i < links.length; i++) { %>
+      <% if(archive.length==0) {%>
         <div class="linker">
-            <center><a href="/download/<%=links[i]%>"><%=links[i]%></a></center>
-        </div>
-        <%}%>
+          <center><div>No archived card exist</div></center>
+      </div>
+      <% } %>
+
+      <% for(var i=0;i < archive.length;i++) { %>
+        <div class="linker">
+          <div>
+            <span>BoardName: <%=archive[i].bname%></span>
+          </div>
+          <div>
+            <span>ListName: <%=archive[i].lname%></span>
+            <span class="linker1" onclick="window.location.assign('/archive/<%=archive[i].bname%>/<%=archive[i].lname%>/<%= archive[i].cname%>')">Restore</span>
+          </div>
+          <div>
+            <span>CardName: <%=archive[i].cname%></span>
+          </div>
+      </div>
+
+      <% } %>
+
+    
+
+
+     
 
         
 

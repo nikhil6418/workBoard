@@ -23,6 +23,7 @@
                 <ul class="nav navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                     <li class="nav-item"><a class="nav-link" onclick="openForm()">Create List</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/showArchivedCards">Archived cards</a></li>
 
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
@@ -66,9 +67,14 @@
           <div class="col-sm-3" style="padding: 0px; padding-top: 25px; margin-left: 10px; ">
             <div style="height: 70px; font-size: 25px; background-color: #E8E8E8; padding-top: 15px; padding-left: 10px;" id="list<%=i%>"><%=board[0].list[i].listName%></div>
             <% for(var j=0; j < board[0].list[i].card.length; j++) {%>
-            <div style="background-color: white; padding-top: 10px; padding-left:20px; padding-bottom:10px; cursor: pointer;" onclick="window.location.assign('/showList/<%=board[0].name%>/<%=board[0].list[i].listName%>/<%= board[0].list[i].card[j].cardName%>')"><%= board[0].list[i].card[j].cardName%></div>
+              <% if(!board[0].list[i].card[j].archive) {%>
+                <div style="background-color:#98FB98;">
+                  <span style="display: inline-block; background-color:white; width:75%; padding-top: 10px; padding-left:20px; padding-bottom:10px; cursor: pointer;" onclick="window.location.assign('/showList/<%=board[0].name%>/<%=board[0].list[i].listName%>/<%= board[0].list[i].card[j].cardName%>')"><%= board[0].list[i].card[j].cardName%></span>
+                  <span style="display: inline-block; width:15%; padding-top: 10px; padding-left:20px; padding-bottom:10px; cursor: pointer; " onclick="window.location.assign('/archive/<%=board[0].name%>/<%=board[0].list[i].listName%>/<%= board[0].list[i].card[j].cardName%>')">Archive</span>
+                </div>
+            <%}%>
             <%}%>  
-            <button class="button" onclick="openForm1(<%=i%>)" >+ card</button>  
+            <button class="button" onclick="openForm1(<%=i%>)" >+ card</button>   
           </div>     
         <%}%>     
         </div>

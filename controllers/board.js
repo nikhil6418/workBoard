@@ -9,6 +9,67 @@ exports.fileDownload = (req, res) => {
     res.download(process.cwd() + "/public/uploads/" + req.params.fileName);    
   };
 
+exports.showArchivedCards =(req, res) => {
+    archive=[];
+    Board.find((err,data) => {
+        // console.log(data);
+        async.each(data,function(id,callback) {
+            // console.log(id.name);
+            var i;
+            for(i=0;i<id.list.length;i++){
+                var j=0;
+                for(j=0;j<id.list[i].card.length;j++){
+                    var k;
+                    // console.log(id.list[i].card[0]);
+                    if(id.list[i].card[j].archive==true){
+                        temp={
+                            bname:id.name,
+                            lname:id.list[i].listName,
+                            cname:id.list[i].card[j].cardName
+                        };
+                        // console.log(temp);
+                        archive.push(temp);
+                    }
+                }
+
+            }
+            callback(err);
+        },function(err) {
+            res.render("archive",{
+                name:req.user.name,
+                archive: archive
+            });   
+        });
+    });
+
+  };
+
+
+
+exports.archiveCard =(req, res) => {
+    Board.findOne({name:req.params.boardName},(err,data) => {
+        async.each(data.list,function(id,callback) {
+            if(id.listName==req.params.listName){
+                var i;
+                for(i=0; i<id.card.length;i++){
+                    var j;
+                    if(id.card[i].cardName==req.params.cardName){
+                        id.card[i].archive=!(id.card[i].archive);
+                        data.save();
+                    }
+                }
+            }
+            callback(err);
+        },function(err) {
+            req.flash('success',{msg:'Done'});
+            res.redirect("back");   
+        });
+    });
+
+  };
+
+
+
 exports.fileUpload =(req, res) => {
     // console.log(req.params.boardName);
     // console.log(req.params.listName);
@@ -35,6 +96,7 @@ exports.fileUpload =(req, res) => {
 
   };
 
+
 exports.showList = (req, res) => {
     // console.log(req.params.boardName);
     // console.log(req.params.listName);
@@ -57,7 +119,8 @@ exports.showList = (req, res) => {
             res.render('list',{bname : req.params.boardName,
                 lname : req.params.listName,
                 cname : req.params.cardName,
-                links : link
+                links : link,
+                name  : req.user.name
             });
             
         });
@@ -112,7 +175,7 @@ exports.createCard = (req, res) => {
     // console.log(req.params.boardName);
     // console.log(req.params.listName);
     // console.log(req.body.cardName);
-    var inobj= { cardName: req.body.cardName };
+    var inobj= { cardName: req.body.cardName, archive: false };
 
     Board.findOne({ name: req.params.boardName }, (err, data) => {
         console.log(data.list);

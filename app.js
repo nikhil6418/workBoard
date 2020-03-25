@@ -94,6 +94,7 @@ app.post('/signup', userController.postSignup);
 app.get('/reset/:token',userController.getToken);
 app.post('/reset/:token',userController.postToken);
 app.get('/logout',userController.logoutDone);
+app.get('/showArchivedCards',boardController.showArchivedCards);
 app.post('/createBoard',boardController.createBoard);
 app.post('/createTBoard',boardController.createTBoard);
 app.get('/createList/:boardName',boardController.redirectList);
@@ -102,6 +103,7 @@ app.post('/addMember/:boardName',boardController.addMember);
 app.post('/createList/:boardName',boardController.createList);
 app.post('/createCard/:boardName/:listName',boardController.createCard);
 app.get('/showList/:boardName/:listName/:cardName',boardController.showList);
+app.get('/archive/:boardName/:listName/:cardName',boardController.archiveCard);
 app.post('/fileUpload/:boardName/:listName/:cardName',upload.single('upfile'),boardController.fileUpload);
 app.use('/', indexRouter);
 // catch 404 and forward to error handler
