@@ -14,7 +14,7 @@
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
-    "express": "~4.16.1",
+    "express": "~4.17.3",
     "express-fileupload": "^1.1.6",
     "express-flash": "0.0.2",
     "express-session": "^1.17.0",
